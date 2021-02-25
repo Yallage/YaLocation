@@ -11,8 +11,9 @@ public class Actions {
     private List<String> commands = new ArrayList<>();
     private String title = "";
     private String subtitle = "";
-    private boolean seeTitle = false;
-    private boolean seeSubtitle = false;
+    private boolean haveCommands = false;
+    private boolean canSeeTitle = false;
+    private boolean canSeeSubtitle = false;
 
     public List<String> getCommands() {
         return commands;
@@ -38,19 +39,27 @@ public class Actions {
         this.subtitle = subtitle;
     }
 
-    public boolean isSeeTitle() {
-        return seeTitle;
+    public boolean isHaveCommands() {
+        return haveCommands;
     }
 
-    public void setSeeTitle(boolean seeTitle) {
-        this.seeTitle = seeTitle;
+    public void setHaveCommands(boolean haveCommands) {
+        this.haveCommands = haveCommands;
     }
 
-    public boolean isSeeSubtitle() {
-        return seeSubtitle;
+    public boolean isCanSeeTitle() {
+        return canSeeTitle;
     }
 
-    public void setSeeSubtitle(boolean seeSubtitle) {
-        this.seeSubtitle = seeSubtitle;
+    public void setCanSeeTitle(boolean canSeeTitle) {
+        this.canSeeTitle = canSeeTitle;
+    }
+
+    public boolean isCanSeeSubtitle() {
+        return canSeeSubtitle;
+    }
+
+    public void setCanSeeSubtitle(boolean canSeeSubtitle) {
+        this.canSeeSubtitle = canSeeSubtitle;
     }
 }

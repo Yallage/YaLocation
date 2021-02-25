@@ -26,24 +26,34 @@ public class ConfigHandler {
      */
     public ConfigHandler() {
         Bukkit.getServer().getLogger().info(ChatColor.YELLOW + "[YaLocation] Loading Config ...");
-        getFiles(new File("./plugins/YaLocation/config/"));
+
+        // 检查配置文件夹是否存在
+        File dir = new File("./plugins/YaLocation/config/");
+        if (!dir.exists() && !dir.isDirectory()) {
+            dir.mkdirs();
+        }
+
+        // 加载配置文件
+        getFiles(dir);
         FileConfiguration configuration;
         for (int i = 0; i < files.size(); i++) {
             configuration = YamlConfiguration.loadConfiguration(files.get(i));
-            Location location = new Location(Bukkit.getWorld(Objects.requireNonNull(configuration.getString("world"))), configuration.getDouble("x"), configuration.getDouble("y"), configuration.getDouble("z"));
+            Location location = new Location(Bukkit.getWorld(Objects.requireNonNull(configuration.getString("world"))), configuration.getInt("x"), configuration.getInt("y"), configuration.getInt("z"));
             Actions actions = new Actions();
+            // TODO: 这里要改逻辑 有可能commands是空的
+            actions.setHaveCommands(true);
             actions.setCommands(configuration.getStringList("commands"));
             if (configuration.getString("title") != null) {
-                actions.setSeeTitle(true);
+                actions.setCanSeeTitle(true);
                 actions.setTitle(configuration.getString("title"));
             }
             if (configuration.getString("subtitle") != null) {
-                actions.setSeeSubtitle(true);
+                actions.setCanSeeSubtitle(true);
                 actions.setSubtitle(configuration.getString("subtitle"));
             }
             locationActionsMap.put(location, actions);
         }
-        Bukkit.getServer().getLogger().info(ChatColor.GREEN + "[YaLocation] Loaded " + locationActionsMap.size() + 1 + "Config");
+        Bukkit.getServer().getLogger().info(ChatColor.GREEN + "[YaLocation] Loaded " + locationActionsMap.size() + " Config");
     }
 
     /**
