@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.*;
@@ -20,6 +21,8 @@ public class ConfigHandler {
     private final List<File> files = new ArrayList<>();
     // 坐标Map
     public static Map<Location, Actions> locationActionsMap = new HashMap<>();
+    // 指令执行次数统计
+    public static Map<Player, Boolean> executeCountMap = new HashMap<>();
 
     /**
      * 加载满足条件的yml
@@ -36,20 +39,23 @@ public class ConfigHandler {
         // 加载配置文件
         getFiles(dir);
         FileConfiguration configuration;
-        for (int i = 0; i < files.size(); i++) {
-            configuration = YamlConfiguration.loadConfiguration(files.get(i));
+        for (File file : files) {
+            configuration = YamlConfiguration.loadConfiguration(file);
             Location location = new Location(Bukkit.getWorld(Objects.requireNonNull(configuration.getString("world"))), configuration.getInt("x"), configuration.getInt("y"), configuration.getInt("z"));
+            System.out.println(configuration.getInt("x"));
+            System.out.println(configuration.getInt("y"));
+            System.out.println(configuration.getInt("z"));
             Actions actions = new Actions();
             // TODO: 这里要改逻辑 有可能commands是空的
             actions.setHaveCommands(true);
             actions.setCommands(configuration.getStringList("commands"));
             if (configuration.getString("title") != null) {
                 actions.setCanSeeTitle(true);
-                actions.setTitle(configuration.getString("title"));
+                actions.setTitle(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(configuration.getString("title"))));
             }
             if (configuration.getString("subtitle") != null) {
                 actions.setCanSeeSubtitle(true);
-                actions.setSubtitle(configuration.getString("subtitle"));
+                actions.setSubtitle(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(configuration.getString("subtitle"))));
             }
             locationActionsMap.put(location, actions);
         }
