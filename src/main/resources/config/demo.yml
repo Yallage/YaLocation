@@ -1,0 +1,16 @@
+# 世界名称 必要
+world: "ZC"
+
+# X Y Z 坐标 必要
+x: "1"
+y: "1"
+z: "1"
+
+# 指令列表
+commands:
+  - "xxx xxx xxx"
+  - "xxx xxx xxx"
+
+# 内置指令 内置变量 %player%
+title: "xxx %player% xxx"
+subtitle: "xxx"

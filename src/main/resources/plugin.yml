@@ -1,0 +1,5 @@
+name: YaLocation
+version: ${project.version}
+main: com.nanokylin.mc.yalocation.YaLocation
+api-version: 1.16
+authors: [Hanbings]
