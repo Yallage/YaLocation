@@ -42,18 +42,16 @@ public class ConfigHandler {
         for (File file : files) {
             configuration = YamlConfiguration.loadConfiguration(file);
             Location location = new Location(Bukkit.getWorld(Objects.requireNonNull(configuration.getString("world"))), configuration.getInt("x"), configuration.getInt("y"), configuration.getInt("z"));
-            System.out.println(configuration.getInt("x"));
-            System.out.println(configuration.getInt("y"));
-            System.out.println(configuration.getInt("z"));
             Actions actions = new Actions();
-            // TODO: 这里要改逻辑 有可能commands是空的
-            actions.setHaveCommands(true);
-            actions.setCommands(configuration.getStringList("commands"));
-            if (configuration.getString("title") != null) {
+            if (configuration.get("commands") != null) {
+                actions.setHaveCommands(true);
+                actions.setCommands(configuration.getStringList("commands"));
+            }
+            if (configuration.get("title") != null) {
                 actions.setCanSeeTitle(true);
                 actions.setTitle(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(configuration.getString("title"))));
             }
-            if (configuration.getString("subtitle") != null) {
+            if (configuration.get("subtitle") != null) {
                 actions.setCanSeeSubtitle(true);
                 actions.setSubtitle(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(configuration.getString("subtitle"))));
             }

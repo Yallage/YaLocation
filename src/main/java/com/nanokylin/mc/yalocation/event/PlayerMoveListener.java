@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class PlayerMoveListener implements Listener {
     // 肉便器
@@ -34,8 +35,10 @@ public class PlayerMoveListener implements Listener {
             // 执行指令后
             if (ConfigHandler.executeCountMap.get(event.getPlayer())) {
                 // 考虑下设计任务队列
-                List<String> commands = ConfigHandler.locationActionsMap.get(this.location).getCommands();
-                // 指令改完逻辑再写
+                if (ConfigHandler.locationActionsMap.get(this.location).isHaveCommands()){
+                    List <String> commands = ConfigHandler.locationActionsMap.get(this.location).getCommands();
+                    IntStream.range(0, commands.size()).forEach(i -> Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), commands.get(i)));
+                }
                 if (ConfigHandler.locationActionsMap.get(this.location).isCanSeeTitle() && ConfigHandler.locationActionsMap.get(this.location).isCanSeeSubtitle()) {
                     event.getPlayer().sendTitle(ConfigHandler.locationActionsMap.get(this.location).getTitle(), ConfigHandler.locationActionsMap.get(this.location).getSubtitle(), 20, 70, 10);
                 } else if (ConfigHandler.locationActionsMap.get(this.location).isCanSeeTitle()) {
